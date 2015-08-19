@@ -4,6 +4,7 @@
 # "make test" will not report failures for tests listed here and will consider
 # a successful run for any of these tests an error.
 
+^samba3.raw.eas
 ^samba3.blackbox.failure.failure # this is designed to fail, for testing our test infrastructure
 .*driver.add_driver_timestamps # we only can store dates, not timestamps
 ^samba3.smbtorture_s3.plain\(dc\).LOCK9 # Fails against the s4 ntvfs server

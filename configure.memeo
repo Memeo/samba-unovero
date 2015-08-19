@@ -1,0 +1,11 @@
+#!/bin/bash
+./configure.developer                   \
+    --enable-selftest                   \
+    --with-selftest-prefix=/tmp/samba_st\
+    --prefix=/usr                       \
+    --sysconfdir=/etc                   \
+    --localstatedir=/var                \
+    --with-piddir=/run/samba            \
+    --with-pammodulesdir=/lib/security  \
+    --without-systemd                   \
+    --enable-fhs    

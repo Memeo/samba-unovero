@@ -1,0 +1,4 @@
+A samba virtual file system (VFS) that implements the bifrost API will be implemented to support the unovero project. 
+
+"Unfortunately there is no way currently to build your VFS module out of the Samba source tree. This means that you will have to add your source code to the Samba source tree to build it.",
+quoted from https://wiki.samba.org/index.php/Writing_a_Samba_VFS_Module#Building_Your_VFS_Module. For this reason the samba project is forked into the samba-unovero project.

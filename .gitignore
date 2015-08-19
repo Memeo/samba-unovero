@@ -55,3 +55,10 @@ docs-xml/Samba3-HOWTO/images/trusts1.png
 .testrepository
 bin/.confcache/*/*
 bin/.conf_check_*/*
+/missing.txt
+/main.i
+/x
+/quicktest.log
+/sambawafhelp.txt
+/configure.memeo.out.txt
+apidocs

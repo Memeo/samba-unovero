@@ -53,6 +53,7 @@ VFS_MEDIA_HARMONY_SRC = 'vfs_media_harmony.c'
 VFS_BTRFS_SRC = 'vfs_btrfs.c'
 VFS_CEPH_SRC = 'vfs_ceph.c'
 VFS_GLUSTERFS_SRC = 'vfs_glusterfs.c'
+VFS_BIFROST_SRC = 'vfs_bifrost.c'
 
 
 bld.SAMBA3_SUBSYSTEM('NFS4_ACLS',
@@ -531,4 +532,14 @@ bld.SAMBA3_MODULE('vfs_glusterfs',
                   init_function='',
                   internal_module=bld.SAMBA3_IS_STATIC_MODULE('vfs_glusterfs'),
                   enabled=bld.SAMBA3_IS_ENABLED_MODULE('vfs_glusterfs'),
+                  allow_undefined_symbols=False)
+
+
+bld.SAMBA3_MODULE('vfs_bifrost',
+                  subsystem='vfs',
+                  source=VFS_BIFROST_SRC,
+                  deps='samba-util ',
+                  init_function='',
+                  internal_module=bld.SAMBA3_IS_STATIC_MODULE('vfs_bifrost'),
+                  enabled=bld.SAMBA3_IS_ENABLED_MODULE('vfs_bifrost'),
                   allow_undefined_symbols=False)

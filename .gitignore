@@ -62,3 +62,5 @@ bin/.conf_check_*/*
 /sambawafhelp.txt
 /configure.memeo.out.txt
 apidocs
+wscript*.py
+

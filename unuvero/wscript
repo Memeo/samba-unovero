@@ -1,0 +1,14 @@
+import pprint
+import os
+top = '.'
+out = 'build'
+
+def set_options(ctx):
+    pass
+
+def configure(ctx):
+        ctx.load('cxx_compiler')
+    
+def build(ctx):
+    cmd = 'make'
+    os.system(cmd)

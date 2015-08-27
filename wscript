@@ -46,6 +46,8 @@ def set_options(opt):
     opt.RECURSE('pidl')
     opt.RECURSE('source3')
     opt.RECURSE('lib/util')
+    
+    opt.RECURSE('unuvero')
 
     opt.add_option('--with-system-mitkrb5',
                    help='enable system MIT krb5 build (includes Samba 4 client and Samba 3 code base).'+

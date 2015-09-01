@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//buildtools/wafadmin/3rdparty/batched_cc.py=utf-8
+encoding//buildtools/wafadmin/3rdparty/boost.py=utf-8
+encoding//buildtools/wafadmin/3rdparty/fluid.py=utf-8
+encoding//buildtools/wafadmin/3rdparty/gccdeps.py=utf-8
+encoding//buildtools/wafadmin/3rdparty/go.py=utf-8
+encoding//buildtools/wafadmin/3rdparty/lru_cache.py=utf-8
+encoding//buildtools/wafadmin/3rdparty/paranoid.py=utf-8
+encoding//buildtools/wafadmin/Scripting.py=utf-8
+encoding//buildtools/wafadmin/Tools/cc.py=utf-8
+encoding//buildtools/wafadmin/Tools/compiler_cc.py=utf-8
+encoding//buildtools/wafadmin/Tools/compiler_cxx.py=utf-8
+encoding//buildtools/wafadmin/Tools/config_c.py=utf-8
+encoding//buildtools/wafadmin/Tools/libtool.py=utf-8
+encoding//buildtools/wafsamba/gccdeps.py=utf-8

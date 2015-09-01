@@ -66,5 +66,10 @@ def h():
 
     
     r = requests.post('https://magni-staging.memeo.com/thor/auth/magni',headers=headers,params=params,)       
+    print json.JSONDecoder().decode(r.text)
+    
+    
+if __name__ == '__main__':
+    h()
 
 

@@ -39,12 +39,14 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <string.h>
 
 
 #include <fcntl.h>           /* Definition of AT_* constants */
 #include <sys/stat.h>
 
-
+#include "./bifrost_api.h"
+#include <stdio.h>
 static FILE  *  vfs_bifrost_log = NULL;
 
 
@@ -54,7 +56,9 @@ bifrost_log
   (const char *msg)
 {
 
-	if(vfs_bifrost_log==NULL) {
+#include "./bifrost_api.h"
+#include <stdio.h>
+if(vfs_bifrost_log==NULL) {
 		vfs_bifrost_log = fopen("/home/gsilverman/vfs_bifrost_log.txt","a");
 	}
 	fprintf(vfs_bifrost_log,"%s\n",msg);
@@ -65,6 +69,7 @@ static int bifrost_connect(vfs_handle_struct *handle, const char *service,
 			const char *user)
 {
 	bifrost_log(__FUNCTION__);
+    authenticate(vfs_bifrost_log);
 	return SMB_VFS_NEXT_CONNECT(handle, service, user);
 }
 

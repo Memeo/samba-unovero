@@ -8,7 +8,7 @@ import requests
 import collections
 import json
 import urllib
-#from ubuntu_sso.utils.txsecrets import Item
+import os
 
 if False:
     try:
@@ -26,27 +26,7 @@ if False:
     requests_log.propagate = True
 
 
-
-def dump_map(fs):
-    pass
-
-def add_to_map(fs,path,value):
-    if not path:
-        if not 'value' in fs:
-            fs['value'] = []
-        fs['value'].append(value)
-        return
-    else:
-        fs = fs[path[0]]
-        add_to_map(fs,path[1:],value)
-
-def build_map(fs,path):
-    if not path:
-        return
-    else:
-        if not path[0] in fs:
-            fs[path[0]] = {}
-        build_map(fs[path[0]],path[1:])
+    
     
 def authenticate(p_email,p_password):
     
@@ -67,49 +47,46 @@ def authenticate(p_email,p_password):
     
     return headers
     
-    
-def createFs(p_headers):
-    
+def searchMagni(p_headers):
     params = collections.OrderedDict()
     params['include_docs']='false'
     params['limit']='100'
     params['reverse']='false'
-    params['sort']='name'    
+    params['sort']='name'   
+    #params['is_folder']='true' 
     
-    r = requests.get('https://magni-staging.memeo.com/thor/magni/admin/search',headers=p_headers,params=params,)
+    r = requests.get('https://magni-staging.memeo.com/thor/magni/search',headers=p_headers,params=params,)
     
     body = json.JSONDecoder().decode(r.text)
-    
-    if r.status_code != 200:
-        raise Exception(r.status_code)
-    
-    fs = {}
-    results = []
-    
+    #pprint.pprint(body)
+    body['details'] = {}
     for i in body['rows']:
-        r = requests.get(i,headers=headers)
-        b = json.JSONDecoder().decode(r.text)
-        results.append(b)
-        crumbs = b['crumbs']
-        path = []
-        for j,k in enumerate(crumbs):
-            for l,m in enumerate(k):
-                path.append(m)
-        build_map(fs,path)
-
-
-    for b in results:
-        crumbs = b['crumbs']
-        path = []
-        for j,k in enumerate(crumbs):
-            for l,m in enumerate(k):
-                path.append(m)                
-        add_to_map(fs, path, b)
-        
-    return fs
+        r = requests.get(i,headers=headers)  
+        dirbody = json.JSONDecoder().decode(r.text)
+        path = dirbody['path'].split('/')
+        if not path[0]:
+            path = path[1:]
+        path.append(dirbody['name'])
+        if not len(path) in body['details']:
+            body['details'][len(path)] =[dirbody]
+        else:
+            body['details'][len(path)].append(dirbody)
+  
+     
+    if r.status_code != 200:
+        raise Exception(r.status_code)   
+    else:
+        return (r.headers,body)
+    
 
 
 if __name__ == '__main__':
     headers = authenticate('greg.silverman@mailinator.com', 'passw0rd1')
-    fs = createFs(headers)
-    pprint.pprint(fs)
+    headers,body = searchMagni(headers)
+    #pprint.pprint(body)
+    details = body['details']
+    pprint.pprint(details)
+    for i in xrange(len(details)):
+        folders = details[i+1]
+        for folder in folders:
+            i+1,pprint.pprint(folder)

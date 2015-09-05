@@ -78,7 +78,6 @@ def searchMagni(p_headers):
 
     
     for i in items:
-	pprint.pprint(items[i])
         path = '/'+items[i]['path']
         name = items[i]['name']
         if path:
@@ -91,7 +90,7 @@ def searchMagni(p_headers):
             pprint.pprint((path,{'metdata':folders[path]['metadata'],'items':folders[path]['items']}))
         else:
             pprint.pprint((path,items[path]))
-    return None,None
+    return r.headers,(folders,items)
     
     
     

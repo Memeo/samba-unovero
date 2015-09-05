@@ -91,9 +91,7 @@ def searchMagni(p_headers):
         else:
             pprint.pprint((path,items[path]))
     return r.headers,(folders,items)
-    
-    
-    
+
 
 
 if __name__ == '__main__':

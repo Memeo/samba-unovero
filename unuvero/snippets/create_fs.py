@@ -9,6 +9,7 @@ import collections
 import json
 import urllib
 import os
+from docutils.parsers.rst.directives import path
 
 if False:
     try:
@@ -48,45 +49,55 @@ def authenticate(p_email,p_password):
     return headers
     
 def searchMagni(p_headers):
-    params = collections.OrderedDict()
-    params['include_docs']='false'
-    params['limit']='100'
-    params['reverse']='false'
-    params['sort']='name'   
-    #params['is_folder']='true' 
-    
-    r = requests.get('https://magni-staging.memeo.com/thor/magni/search',headers=p_headers,params=params,)
-    
+
+    p_params = collections.OrderedDict()
+    p_params['include_docs']='false'
+    p_params['limit']='100'
+    p_params['reverse']='false'
+    p_params['sort']='rawpath'   
+
+
+    r = requests.get('https://magni-staging.memeo.com/thor/magni/search',headers=p_headers,params=p_params,)
     body = json.JSONDecoder().decode(r.text)
-    #pprint.pprint(body)
-    body['details'] = {}
+
+
+    paths = []
+    folders = {'/':{'metadata':{},'items':{}}}
+    items = {}
     for i in body['rows']:
         r = requests.get(i,headers=headers)  
-        dirbody = json.JSONDecoder().decode(r.text)
-        path = dirbody['path'].split('/')
-        if not path[0]:
-            path = path[1:]
-        path.append(dirbody['name'])
-        if not len(path) in body['details']:
-            body['details'][len(path)] =[dirbody]
+        itembody = json.JSONDecoder().decode(r.text)
+        name = itembody['name']
+        path = '/'.join([itembody['path'],name])
+        if not path.startswith('/'):
+            path = '/'+path
+        paths.append(path)
+        if itembody['is_folder']:
+            folders[path] = {'metadata':itembody,'items':{}}
+        items[path] = itembody
+
+    
+    for i in items:
+	pprint.pprint(items[i])
+        path = '/'+items[i]['path']
+        name = items[i]['name']
+        if path:
+            folders[path]['items'][name] = items[i]
+
+    
+    
+    for path in paths:
+        if path in folders:
+            pprint.pprint((path,{'metdata':folders[path]['metadata'],'items':folders[path]['items']}))
         else:
-            body['details'][len(path)].append(dirbody)
-  
-     
-    if r.status_code != 200:
-        raise Exception(r.status_code)   
-    else:
-        return (r.headers,body)
+            pprint.pprint((path,items[path]))
+    return None,None
+    
+    
     
 
 
 if __name__ == '__main__':
     headers = authenticate('greg.silverman@mailinator.com', 'passw0rd1')
     headers,body = searchMagni(headers)
-    #pprint.pprint(body)
-    details = body['details']
-    pprint.pprint(details)
-    for i in xrange(len(details)):
-        folders = details[i+1]
-        for folder in folders:
-            i+1,pprint.pprint(folder)
+
